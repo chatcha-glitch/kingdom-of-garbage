@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Kingdom of Garbage | Waste Data & Sorting Service</title>
+
+  <!-- ฟอนต์ -->
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-dark: #050f1f;
+      --bg-deep: #071727;
+      --bg-section: #0d2138;
+      --accent: #f9b233;
+      --accent-soft: rgba(249, 178, 51, 0.12);
+      --text-main: #f5f7fb;
+      --text-muted: #9aa7c0;
+      --border-soft: #243854;
+      --radius-xl: 18px;
+      --radius-lg: 14px;
+      --radius-pill: 999px;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Prompt", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #162b46 0, #050f1f 40%, #02040a 100%);
+      color: var(--text-main);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    section {
+      padding: 70px 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(4, 10, 22, 0.96);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 0 2px rgba(249, 178, 51, 0.7);
+      background: radial-gradient(circle at 30% 0, #ffffff44, #1c2838 60%, #02050b 100%);
+    }
+
+    .nav-title-main {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .nav-title-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 14px;
+    }
+
+    .nav-link {
+      padding: 6px 10px;
+      border-radius: var(--radius-pill);
+      color: var(--text-muted);
+      transition: 0.17s;
+    }
+
+    .nav-link:hover {
+      background: rgba(249, 178, 51, 0.16);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .nav-cta {
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), #ffe69a);
+      color: #1b1307;
+      font-weight: 600;
+      font-size: 13px;
+      box-shadow: 0 10px 26px rgba(249, 178, 51, 0.45);
+      transition: 0.17s;
+    }
+
+    .nav-cta:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      width: 20px;
+      height: 2px;
+      border-radius: 999px;
+      background: #f5f7ff;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        left: 16px;
+        right: 16px;
+        top: 60px;
+        flex-direction: column;
+        align-items: flex-start;
+        background: rgba(5, 12, 27, 0.98);
+        border-radius: 18px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transform-origin: top;
+        transform: scaleY(0);
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.18s ease-out;
+      }
+
+      .nav-links.open {
+        transform: scaleY(1);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-cta {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+      }
+    }
+
+    /* HERO */
+    #home {
+      padding-top: 80px;
+    }
+
+    .hero {
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px 4px 5px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(249, 178, 51, 0.6);
+      background: rgba(249, 178, 51, 0.12);
+      font-size: 11px;
+      margin-bottom: 14px;
+    }
+
+    .hero-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffffffaa, #f9b233, #b47310);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #1b1307;
+      box-shadow: 0 0 0 2px rgba(249, 178, 51, 0.4);
+    }
+
+    .hero-title {
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.25;
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+
+    .hero-title span {
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 20px;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .chip {
+      padding: 4px 10px;
+      font-size: 11.5px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .btn-secondary {
+      padding: 9px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: transparent;
+      color: var(--text-main);
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.17s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-meta {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-meta span + span::before {
+      content: "•";
+      margin: 0 6px;
+      opacity: 0.6;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top, #293c61 0, #050b18 55%);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .hero-logo-big {
+      width: 150px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      background: radial-gradient(circle at 30% 0, #ffffff55, transparent 60%);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .metric {
+      background: rgba(5, 13, 27, 0.96);
+      border-radius: 14px;
+      padding: 7px 8px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 11px;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .hero-note {
+      margin-top: 8px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        max-width: 360px;
+        margin: 24px auto 0;
+      }
+    }
+
+    /* SECTION HEADER */
+    .section-header {
+      margin-bottom: 22px;
+    }
+
+    .section-kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    .section-bg {
+      background: radial-gradient(circle at top, #0d2138, #050f1f 65%);
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    /* ABOUT */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 30px;
+      align-items: flex-start;
+    }
+
+    .about-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(4, 10, 22, 0.9);
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: rgba(7, 18, 37, 0.98);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .card-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+    }
+
+    .card-list li {
+      margin-bottom: 6px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .card-bullet {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 5px;
+    }
+
+    @media (max-width: 850px) {
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* SERVICES */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .service-card {
+      background: rgba(5, 14, 30, 0.97);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 14px 14px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, var(--accent-soft), transparent 55%);
+      opacity: 0;
+      transition: 0.2s;
+      pointer-events: none;
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    @media (max-width: 960px) {
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .service-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* PROCESS STEPS */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      font-size: 11.5px;
+    }
+
+    .step {
+      background: rgba(7, 18, 35, 0.96);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 10px;
+    }
+
+    .step-index {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(249, 178, 51, 0.8);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      background: rgba(249, 178, 51, 0.14);
+    }
+
+    .step-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .step-text {
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 960px) {
+      .process-steps {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .process-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .process-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .process-gallery-item {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: #02040a;
+    }
+
+    .process-gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 960px) {
+      .process-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .process-gallery {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* FIELD WORK / GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #02040a;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.1);
+      transition: 0.25s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: saturate(1.25) brightness(1.05);
+    }
+
+    .gallery-label {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      padding: 3px 8px;
+      font-size: 10px;
+      border-radius: var(--radius-pill);
+      background: rgba(3, 9, 18, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    @media (max-width: 960px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* CONTACT */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .contact-card {
+      background: rgba(5, 13, 27, 0.97);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 18px 18px 16px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    .contact-row {
+      margin-bottom: 8px;
+      font-size: 12.5px;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .contact-highlight {
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    form {
+      display: grid;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    label {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(3, 9, 19, 0.96);
+      color: #f5f7ff;
+      padding: 7px 9px;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      transition: 0.16s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(249, 178, 51, 0.8);
+      box-shadow: 0 0 0 1px rgba(249, 178, 51, 0.35);
+      background: rgba(4, 12, 25, 1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-note {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 850px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 14px 0 18px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 600px) {
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <img src="logo.jpg" alt="Kingdom of Garbage Logo" />
+        </div>
+        <div>
+          <div class="nav-title-main">KINGDOM OF GARBAGE</div>
+          <div class="nav-title-sub">Waste Data • Sorting • Insight</div>
+        </div>
+      </div>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link">หน้าแรก</a>
+        <a href="#about" class="nav-link">เกี่ยวกับเรา</a>
+        <a href="#services" class="nav-link">บริการ</a>
+        <a href="#process" class="nav-link">ขั้นตอนทำงาน</a>
+        <a href="#gallery" class="nav-link">Field Work</a>
+        <a href="#contact" class="nav-link">ติดต่อ</a>
+        <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+          ขอใบเสนอราคา
+        </button>
+      </nav>
+
+      <div class="nav-toggle" id="navToggle">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-badge">
+            <div class="hero-dot">KG</div>
+            Kingdom of Garbage • Waste Data Specialist
+          </div>
+
+          <h1 class="hero-title">
+            แปลง <span>กองขยะ</span> ให้กลายเป็น
+            <span>ข้อมูลคุณภาพ</span> สำหรับการตัดสินใจ
+          </h1>
+
+          <p class="hero-subtitle">
+            ทีม Kingdom of Garbage ให้บริการคัดแยกและวิเคราะห์องค์ประกอบขยะ (Waste Composition Analysis)
+            สำหรับโรงไฟฟ้าขยะ โรงงานอุตสาหกรรม และองค์กรที่ต้องการข้อมูลด้านของเสียอย่างมืออาชีพ
+          </p>
+
+          <div class="hero-chips">
+            <span class="chip">Waste Composition Analysis (WCA)</span>
+            <span class="chip">On-site Sorting &amp; Field Team</span>
+            <span class="chip">รายงานเชิงสถิติ พร้อมรูปหลักฐาน</span>
+          </div>
+
+          <div class="hero-actions">
+            <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+              ติดต่อขอรายละเอียด →
+            </button>
+            <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+              ดูบริการทั้งหมด
+            </button>
+          </div>
+
+          <div class="hero-meta">
+            <span>ทีมภาคสนามพร้อม PPE มาตรฐาน</span>
+            <span>รองรับทั้งชุมชนและโรงงานอุตสาหกรรม</span>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div class="hero-logo-big">
+            <img src="logo.jpg" alt="Kingdom of Garbage Emblem" />
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-label">ตัวอย่างขยะที่เคยคัดแยก</div>
+              <div class="metric-value">10,000+ kg</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">ประเภทขยะที่จำแนก</div>
+              <div class="metric-value">40+ ชนิด</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">รูปถ่ายประกอบรายงาน</div>
+              <div class="metric-value">1,000+</div>
+            </div>
+          </div>
+          <p class="hero-note">
+            ทุกโปรเจกต์มาพร้อมชุดข้อมูล, ใบบันทึก, และรูปถ่ายหน้างาน เพื่อการตรวจสอบและนำเสนออย่างโปร่งใส
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section-bg">
+    <div class="container">
+      <div class="grid-2">
+        <div>
+          <div class="section-header">
+            <div class="section-kicker">About Us</div>
+            <h2 class="section-title">ผู้เชี่ยวชาญด้านข้อมูลขยะและการคัดแยก</h2>
+            <p class="section-subtitle">
+              เราไม่ได้ดูแค่ “กองขยะ” แต่โฟกัสไปที่ “ข้อมูล” ที่อยู่ข้างในกองนั้น
+              เพื่อนำไปใช้วางแผนระบบจัดการขยะและต้นทุนอย่างมีประสิทธิภาพ
+            </p>
+          </div>
+          <div class="about-text">
+            <p>
+              ทีมงานของ Kingdom of Garbage มีประสบการณ์ทำงานร่วมกับศูนย์กำจัดขยะ
+              โรงไฟฟ้าจากขยะ (Waste-to-Energy) และหน่วยงานภาครัฐในพื้นที่จริง
+              จึงเข้าใจทั้งข้อจำกัดภาคสนามและความต้องการข้อมูลของวิศวกรและผู้บริหาร.
+            </p>
+            <p>
+              ทุกขั้นตอนตั้งแต่การเก็บตัวอย่าง, คัดแยก, ชั่งน้ำหนัก, บันทึกข้อมูล ไปจนถึงการสรุปผล
+              ถูกออกแบบให้ตรวจสอบย้อนหลังได้ และสามารถนำไปใช้ต่อในงานออกแบบระบบหรือรายงานวิจัยได้ทันที
+            </p>
+
+            <div class="pill-list">
+              <span class="pill">Waste Composition Survey</span>
+              <span class="pill">โรงไฟฟ้าขยะ (WTE)</span>
+              <span class="pill">เทศบาล / อบต. / จังหวัด</span>
+              <span class="pill">งานวิจัย / ที่ปรึกษา</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-title">จุดเด่นของ Kingdom of Garbage</div>
+            <ul class="card-list">
+              <li><span class="card-bullet"></span><span>ทีมภาคสนามพร้อม PPE เครื่องชั่ง ถาด ตะกร้า และอุปกรณ์คัดแยกครบชุด</span></li>
+              <li><span class="card-bullet"></span><span>จำแนกประเภทวัสดุอย่างละเอียด เช่น PET, PP, Film, ผ้า/สิ่งทอ, Organic และอื่น ๆ</span></li>
+              <li><span class="card-bullet"></span><span>มีรูปถ่ายประกอบทุกขั้นตอน ใช้เป็นหลักฐานในรายงานและการนำเสนอแก่ผู้บริหาร</span></li>
+              <li><span class="card-bullet"></span><span>สรุปผลเป็นเปอร์เซ็นต์และกราฟอ่านง่าย สามารถใช้ในงานออกแบบระบบหรือ business case ได้ทันที</span></li>
+              <li><span class="card-bullet"></span><span>ยืดหยุ่นต่อรูปแบบงาน ทั้งแบบครั้งเดียว รายเดือน หรือโครงการระยะยาว</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Services</div>
+        <h2 class="section-title">บริการของเรา</h2>
+        <p class="section-subtitle">
+          ครบตั้งแต่การคัดแยกหน้างาน ไปจนถึงการจัดทำรายงานข้อมูลเชิงลึกสำหรับการตัดสินใจด้านสิ่งแวดล้อมและพลังงาน
+        </p>
+      </div>
+
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-tag">Flagship</div>
+          <div class="service-title">Waste Composition Analysis (WCA)</div>
+          <p>
+            เก็บและคัดแยกตัวอย่างขยะตามมาตรฐาน แยกเป็นหมวดหมู่ ชั่งน้ำหนัก และสรุปผลเป็นสัดส่วนเปอร์เซ็นต์
+            เหมาะสำหรับออกแบบระบบกำจัดขยะและโรงไฟฟ้าขยะ.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-tag">Sorting</div>
+          <div class="service-title">บริการคัดแยกขยะในโรงงาน/ศูนย์กำจัด</div>
+          <p>
+            ทีมงานลงพื้นที่คัดแยกขยะจริงภายในโรงงาน ศูนย์กำจัดขยะ หรือจุดรวบรวมของเสีย
+            พร้อมจัดหมวดหมู่ตามประเภทวัสดุอย่างเป็นระบบ.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-tag">Material Mapping</div>
+          <div class="service-title">จำแนกประเภทพลาสติกและวัสดุ</div>
+          <p>
+            แยกประเภทพลาสติกและวัสดุอย่างละเอียด เช่น PET, ฟิล์ม, PP ใส รวมถึงผ้า/สิ่งทอ
+            เพื่อประเมินศักยภาพรีไซเคิลและมูลค่าที่สามารถกู้คืนได้จากกระบวนการจัดการขยะ.
+          </p>
+          <div style="display:flex; gap:6px; margin-top:8px;">
+            <div style="flex:1; border-radius:8px; overflow:hidden;">
+              <img src="petbasket.jpg" alt="ตัวอย่างพลาสติก PET" />
+            </div>
+            <div style="flex:1; border-radius:8px; overflow:hidden;">
+              <img src="pptray.jpg" alt="ตัวอย่างพลาสติก PP ใส" />
+            </div>
+            <div style="flex:1; border-radius:8px; overflow:hidden;">
+              <img src="rugtray.jpg" alt="ตัวอย่างผ้าและเสื้อผ้า" />
+            </div>
+          </div>
+        </div>
+
+        <div class="service-card">
+          <div class="service-tag">Reporting</div>
+          <div class="service-title">จัดทำรายงานเชิงสถิติ</div>
+          <p>
+            สรุปผลในรูปแบบตาราง กราฟ และสรุปผู้บริหาร (Executive Summary)
+            สามารถใช้แนบรายงานโครงการหรือเสนอผู้บริหารได้ทันที.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-tag">Advisory</div>
+          <div class="service-title">ที่ปรึกษาระบบจัดการขยะ</div>
+          <p>
+            ให้คำแนะนำเบื้องต้นจากข้อมูลที่ได้ เช่น แนวทางลดปริมาณขยะที่ปลายทาง
+            หรือโอกาสในการเพิ่มสัดส่วนวัสดุที่รีไซเคิลได้.
+          </p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-tag">Custom</div>
+          <div class="service-title">งานเก็บข้อมูลพิเศษ</div>
+          <p>
+            รองรับงานเก็บข้อมูลเฉพาะกิจ เช่น งานวิจัย มหาวิทยาลัย หรือโครงการทดลองระบบใหม่
+            สามารถออกแบบรูปแบบการเก็บข้อมูลร่วมกับลูกค้าได้.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="section-bg">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Process</div>
+        <h2 class="section-title">ขั้นตอนการทำงานของเรา</h2>
+        <p class="section-subtitle">
+          ทุกขั้นตอนถูกออกแบบให้ทั้งปลอดภัย หน้างานทำได้จริง และได้ข้อมูลที่นำไปใช้ต่อได้จริง
+        </p>
+      </div>
+
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-index">1</div>
+          <div class="step-title">วางแผน &amp; ออกแบบการเก็บตัวอย่าง</div>
+          <div class="step-text">คุยรายละเอียดปริมาณขยะ จุดเก็บตัวอย่าง และวัตถุประสงค์ของข้อมูลร่วมกับลูกค้า.</div>
+        </div>
+        <div class="step">
+          <div class="step-index">2</div>
+          <div class="step-title">เก็บตัวอย่างขยะหน้างาน</div>
+          <div class="step-text">ทีมภาคสนามเก็บตัวอย่างขยะตามน้ำหนักที่กำหนด พร้อมรูปถ่ายและข้อมูลพิกัด/เวลา.</div>
+        </div>
+        <div class="step">
+          <div class="step-index">3</div>
+          <div class="step-title">คัดแยก &amp; ชั่งน้ำหนัก</div>
+          <div class="step-text">คัดแยกตามหมวดหมู่วัสดุ ชั่งน้ำหนัก และบันทึกลงแบบฟอร์มข้อมูล.</div>
+        </div>
+        <div class="step">
+          <div class="step-index">4</div>
+          <div class="step-title">ประมวลผล &amp; วิเคราะห์ข้อมูล</div>
+          <div class="step-text">คำนวณสัดส่วนแต่ละประเภท ทำกราฟ และสรุป insight ที่สำคัญ.</div>
+        </div>
+        <div class="step">
+          <div class="step-index">5</div>
+          <div class="step-title">จัดทำรายงาน &amp; ส่งมอบ</div>
+          <div class="step-text">ส่งรายงานฉบับเต็ม (ไฟล์) พร้อมรูปถ่ายประกอบ และสรุปผลสำหรับผู้บริหาร.</div>
+        </div>
+      </div>
+
+      <div class="process-gallery">
+        <div class="process-gallery-item">
+          <img src="workingpro1.jpg" alt="ทีมคัดแยกขยะหน้างานในโรงเรือน" />
+        </div>
+        <div class="process-gallery-item">
+          <img src="workingpro2.jpg" alt="ทีมงานสื่อสารและตรวจสอบตะกร้าขยะ" />
+        </div>
+        <div class="process-gallery-item">
+          <img src="workingpro3.jpg" alt="ทีมงานคัดแยกกลางแจ้งพร้อมบันทึกข้อมูล" />
+        </div>
+        <div class="process-gallery-item">
+          <img src="workingpro4.jpg" alt="การตรวจสอบวัสดุในตะกร้าอย่างละเอียด" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIELD WORK -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Field Work</div>
+        <h2 class="section-title">ภาพผลงานหน้างานจริง</h2>
+        <p class="section-subtitle">
+          ตัวอย่างการคัดแยกและจำแนกขยะจากสถานที่จริง เช่น PET, PP ใส และผ้า/เสื้อผ้า
+          ที่ถูกแยกออกจากขยะรวมเพื่อใช้ในงานวิเคราะห์องค์ประกอบขยะ (WCA)
+        </p>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="petbasket.jpg" alt="ตะกร้า PET ที่คัดแยกแล้ว" />
+          <div class="gallery-label">PET ที่คัดแยกแล้ว</div>
+        </div>
+        <div class="gallery-item">
+          <img src="pptray.jpg" alt="ตัวอย่างพลาสติก PP ใส (Cleared PP)" />
+          <div class="gallery-label">Cleared PP</div>
+        </div>
+        <div class="gallery-item">
+          <img src="rugtray.jpg" alt="ผ้าและเสื้อผ้าที่คัดแยกจากขยะรวม" />
+          <div class="gallery-label">Rug &amp; Clothes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section-bg">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-kicker">Contact</div>
+        <h2 class="section-title">ติดต่อ Kingdom of Garbage</h2>
+        <p class="section-subtitle">
+          ส่งรายละเอียดโปรเจกต์คร่าว ๆ ให้เราได้เลย ทีมงานจะติดต่อกลับพร้อมข้อมูลเพิ่มเติมและใบเสนอราคาที่เหมาะสม
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-row">
+            <div class="contact-label">อีเมลสำหรับติดต่อ</div>
+            <div class="contact-highlight">your-email@example.com</div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-label">เบอร์โทร</div>
+            <div class="contact-highlight">0x-xxx-xxxx</div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-label">พื้นที่ให้บริการ</div>
+            <div class="contact-highlight">ทั่วประเทศไทย (ตามตกลง)</div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-label">ตัวอย่างงานที่เหมาะกับเรา</div>
+            <div>สำรวจองค์ประกอบขยะ, ข้อมูลสำหรับ WTE, โครงการวิจัยด้านสิ่งแวดล้อม, สำรวจขยะเทศบาล ฯลฯ</div>
+          </div>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('ฟอร์มตัวอย่าง – ภายหลังสามารถเชื่อมต่ออีเมลหรือ Line OA ได้');">
+          <div class="form-row">
+            <div>
+              <label>ชื่อผู้ติดต่อ</label>
+              <input type="text" placeholder="ชื่อ-นามสกุล" />
+            </div>
+            <div>
+              <label>หน่วยงาน / บริษัท</label>
+              <input type="text" placeholder="ชื่อหน่วยงาน/บริษัท" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>อีเมล</label>
+              <input type="email" placeholder="you@example.com" />
+            </div>
+            <div>
+              <label>เบอร์โทร</label>
+              <input type="tel" placeholder="0x-xxx-xxxx" />
+            </div>
+          </div>
+
+          <div>
+            <label>รายละเอียดงานโดยย่อ</label>
+            <textarea placeholder="เช่น ต้องการสำรวจองค์ประกอบขยะในศูนย์กำจัดขยะจังหวัด..., ปริมาณขยะต่อวัน..., จุดเก็บตัวอย่าง..."></textarea>
+          </div>
+
+          <button class="nav-cta" type="submit">
+            ส่งข้อความถึง Kingdom of Garbage
+          </button>
+          <div class="form-note">
+            *ฟอร์มนี้เป็นตัวอย่าง ด้านหลังสามารถเชื่อมต่อระบบส่งอีเมลหรือ Line OA ได้ภายหลัง
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> Kingdom of Garbage. All rights reserved.</div>
+      <div class="footer-tagline">Data from Waste • Insight for Decisions.</div>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById("navToggle");
+    const navLinks = document.getElementById("navLinks");
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+    document.querySelectorAll(".nav-link").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+      });
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
